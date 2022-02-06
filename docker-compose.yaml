@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DB: object_store_app_dev
+      POSTGRES_USER: postgres
+      # POSTGRES_PASSWORD: l8trKyh6WCtWUs7NuTtzKSW6iUERHMtxP230Ljdezz4H2Jo4KPH9cz
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   ports:
+  #     - '5050:5050'
+  #   user: root
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
+  #     PGADMIN_DEFAULT_PASSWORD: password
+  #     PGADMIN_LISTEN_PORT: 5050
+  #     PGADMIN_LISTEN_ADDRESS: 0.0.0.0
+  adminer:
+    image: adminer
+    ports:
+      - '8080:8080'
+  object_store:
+    image: minio/minio
+    command: server --console-address ":9001" /home/shared
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      # - MINIO_ACCESS_KEY=nRxhyuGuk3DJPSl7JRTPKd5i75lgCGhpLgFpDW97mK2wMqXc2DntN+ArbLekTCpX
+      - MINIO_ACCESS_KEY=access_key
+      # - MINIO_SECRET_KEY=WFk0kE7wTcPa0stgx6aHnNABaSpEkl4amhD9tUesnJKkoiPdBPCNBqdAaDol0BAV
+      - MINIO_SECRET_KEY=secret_key
+  aws:
+    image: amazon/aws-cli
