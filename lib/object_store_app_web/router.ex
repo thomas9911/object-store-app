@@ -10,14 +10,34 @@ defmodule ObjectStoreAppWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :private do
+    plug ObjectStoreAppWeb.Plugs.Login
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", ObjectStoreAppWeb do
     pipe_through :browser
+    pipe_through :private
 
     get "/", PageController, :index
+  end
+
+  scope "/login", ObjectStoreAppWeb do
+    pipe_through :browser
+
+    get "/", LoginController, :index
+    post "/", LoginController, :login
+  end
+
+  scope "/logout", ObjectStoreAppWeb do
+    pipe_through :browser
+
+    get "/", LogoutController, :logout
+    post "/", LogoutController, :logout
+    delete "/", LogoutController, :logout
   end
 
   # Other scopes may use custom stacks.

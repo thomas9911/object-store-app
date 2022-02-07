@@ -1,0 +1,14 @@
+<section class="phx-hero">
+  <h1><%= gettext "Login" %></h1>
+</section>
+
+<%= form_for :login, "/login", fn f -> %>
+  <%= text_input f, :username, placeholder: "username" %>
+  <%= password_input f, :password, placeholder: "password" %>
+  <%= hidden_input f, :url %>
+  <%= submit "Search" %>
+<% end %>
+
+<script>
+  document.getElementById("login_url").value = document.location.search;
+</script>
